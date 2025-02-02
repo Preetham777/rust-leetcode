@@ -1,24 +1,34 @@
 use std::collections::HashMap;
 
-fn solution(nums: Vec<i32>, target: i32) -> (i32, i32) {
-    let mut new_map: HashMap<i32, i32> = HashMap::new();
+impl Solution {
+    pub fn two_sum(nums: Vec<i32>, target: i32) -> Vec<i32> {
+        let mut new_map: HashMap<i32, i32> = HashMap::new();
 
-    for (i, j) in nums.iter().enumerate() {
-        let i = i as i32;
+        for (i, j) in nums.iter().enumerate() {
+            let i = i as i32;
 
-        new_map.insert(*j, i);
+            let residue = target - j;
+            let residue_index = *new_map.get(&residue).unwrap_or(&-1);
 
-        let residue = target - j;
-
-        if new_map.contains_key(&residue) {
-            return (i, *new_map.get(&residue).unwrap());
+            if new_map.contains_key(&residue) && residue_index != i {
+                return vec![i, residue_index];
+            }
+            new_map.insert(*j, i);
         }
-    }
 
-    return (0, 0);
+        return vec![0, 0];
+    }
 }
 
+/*
++------------------------------------+
+| No need for the leetcode           |
++------------------------------------+
+*/
+
+struct Solution;
+
 fn main() {
-    let (a, b) = solution(vec![1, 2, 3], 5);
-    println!("{a} --> {b}")
+    let a = Solution::two_sum(vec![3, 3], 6);
+    println!("{:?}", a)
 }
